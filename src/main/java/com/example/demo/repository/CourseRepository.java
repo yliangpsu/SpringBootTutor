@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public class CourseRepository {
+public class  CourseRepository {
     List<Course> courses = new ArrayList<>();
 
     public CourseRepository() {
@@ -42,5 +42,29 @@ public class CourseRepository {
         }
 
         return new ArrayList<Course>();
+    }
+
+    public void adcCourse(Course newCourse) {
+        courses.add(newCourse);
+    }
+
+    public void deleteCourse(String courseName) {
+        for (Course curr : courses) {
+            if (curr.getClassName().equals(courseName)) {
+                courses.remove(curr);
+                break;
+            }
+        }
+    }
+
+    public void updateCourse(Course updatedCourse) {
+        for (int i = 0; i < courses.size(); i++) {
+            Course curr = courses.get(i);
+            if (curr.getClassName().equals(updatedCourse.getClassName())) {
+                courses.remove(i);
+                courses.add(i, updatedCourse);
+                break;
+            }
+        }
     }
 }

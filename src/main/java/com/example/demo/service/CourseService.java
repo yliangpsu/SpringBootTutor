@@ -26,4 +26,15 @@ public class CourseService {
         return courseRepository.findCourseByName(input);
     }
 
+    public void addCourse(Course newCourse) {
+        courseRepository.adcCourse(newCourse);
+    }
+
+    public void deleteCourse(String courseName) {
+        courseRepository.deleteCourse(courseName);
+    }
+
+    public void updateCourse(Course updatedCourse) {
+        courseRepository.updateCourse(updatedCourse);
+    }
 }

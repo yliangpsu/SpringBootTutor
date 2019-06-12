@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.modal.Course;
+import com.example.demo.modal.Course;
 import com.example.demo.modal.dto.CourseDto;
 import com.example.demo.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +9,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 // single function interface
@@ -20,13 +19,13 @@ import java.util.List;
 @RequestMapping
 public class CourseController {
     @Autowired // IOC
-    CourseService courseService; // Singleton
+            CourseService courseService; // Singleton
 
     @GetMapping(path = "/", produces = "application/json")
-    public HttpEntity findAllCourses(){
+    public HttpEntity findAllCourses() {
         List<Course> allCourses = courseService.findAllCourses();
 
-        return new ResponseEntity<>(allCourses,HttpStatus.OK);
+        return new ResponseEntity<>(allCourses, HttpStatus.OK);
     }
 
 //    @GetMapping(path = "/api/course/findAllCourses", produces = "application/json")
@@ -43,4 +42,37 @@ public class CourseController {
 
         return new ResponseEntity(findedCourse, HttpStatus.OK);
     }
+
+    @PostMapping(path = "/add/", produces = "application/json")
+    public HttpStatus addCourse(@RequestBody @NotNull Course newCourse) {
+        try {
+            courseService.addCourse(newCourse);
+            return HttpStatus.OK;
+        } catch (Exception e) {
+            return HttpStatus.BAD_REQUEST;
+        }
+    }
+
+    @DeleteMapping(path = "/delete/{inputString}", produces = "application/json")
+    public HttpStatus deleteCourse(@NotNull @PathVariable("inputString") String inputString) {
+        try {
+            courseService.deleteCourse(inputString);
+            return HttpStatus.OK;
+        } catch (Exception e) {
+            return HttpStatus.BAD_REQUEST;
+        }
+    }
+
+    @PutMapping(path = "/update/", produces = "application/json")
+    public HttpStatus updateCourse(@RequestBody @NotNull Course updatedCourse) {
+        try {
+            courseService.updateCourse(updatedCourse);
+            return HttpStatus.OK;
+        } catch (Exception e) {
+            return HttpStatus.BAD_REQUEST;
+        }
+    }
 }
+
+
+
